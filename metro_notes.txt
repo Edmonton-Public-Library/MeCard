@@ -1,0 +1,18 @@
+metro_admin: Koo2vait
+metro_user: Bee0raut
+
+
+The process to happen:
+
+	-User enters a card number/PIN
+	-Javascript validation:
+		-card is 14 digits and numeric
+		
+	
+	-submits card number to DB (javascript)
+		-via AJAX, gets the library name.
+		-If valid, post this information to the next page
+		-else show error saying library is unknown or card number is incorrect
+		
+	
+	
