@@ -70,7 +70,7 @@ if ($result=mysqli_query($con, $query)) {
 
 
 //Check to see if the user is already a member here. If so, we do an update.
-$query="select u.record_index, u.userid, u.home_library_record_index, m.user_record_index, m.library_record_index FROM user u
+$query="select u.record_index, m.record_index AS member_record_index, u.userid, u.home_library_record_index, m.user_record_index, m.library_record_index FROM user u
 	INNER JOIN membership m
 	ON u.record_index = m.user_record_index
 	WHERE u.userid='".$_POST["userid"]."' AND m.library_record_index=".$_POST["joinLibrary"];
@@ -197,7 +197,7 @@ if ($result->num_rows > 0) {
 
 	
 	//If the server replied that it was successful, we can do our database fun stuff.
-	if ($serverReply["code"] == "OK") {
+	if ($serverReply["code"] == "SUCCESS" OR $serverReply["code"] == "OK") {
 		echo '<h2 class="green" style="clear:both;">';
 		if ($hasMembership) echo "Thanks for the update";
 		else echo 'Welcome to the '.$libraryComData["library_name"];
@@ -223,7 +223,7 @@ if ($result->num_rows > 0) {
 		}
 		else {
 			//else we update an existing record
-			$query="UPDATE membership SET date_last_activity=NOW(), user_info_hash='".$_POST["userHash"]."'";
+			$query="UPDATE membership SET date_last_activity=NOW(), user_info_hash='".$_POST["userHash"]."' WHERE record_index='".$userInfo["member_record_index"]."'";
 		}
 		//Execute the insert or update query.
 		$result = mysqli_query($con,$query);
@@ -244,7 +244,9 @@ if ($result->num_rows > 0) {
 
 
 	<pre class="debug">
-		<?php /* #Diagnostics crap 
+		<?php #Diagnostics crap 
+			print_r($userInfo);
+		/*
 			print_r($_POST);
 			echo "<br />";
 			print_r($libraryComData);
@@ -267,14 +269,15 @@ if ($result->num_rows > 0) {
 
 	
 <div class="centered" style="width:600px;">	
-	<p style="margin-bottom:20px; text-align:center;">
+	<p style="margin-bottom:20px; margin-top:20px; text-align:center;">
 	<?php
-		if ($hasMembership and $error != true) echo "Your record at ".$libraryComData["library_name"]."is now up to date";
-		else if ($error != true) {echo "You now have access to the ".$libraryComData["library_name"];
+		if ($error != true) {
+			if ($hasMembership) echo "Your record at ".$libraryComData["library_name"]." is now up to date";
+			else  echo "You now have access to the ".$libraryComData["library_name"];
 	?>
 	.<br />Click the logo below to visit their website, or <a class="green" href="javascript:void(0);" onclick="$('#dataForm').submit()">join another library</a>.</p>
-	<?php } // End success message ?>
-<a href="<?=$libraryComData['library_url']?>" style="border:none;"><img src="<?=$libraryComData["library_logo_url"]?>" class="centered" style="width:160px;vertical-align:middle;" alt="Edmonton Public Library" title="Edmonton Public Library"></a>	
+	<?php  } // End success message ?>
+<a href="<?=$libraryComData['library_url']?>" style="border:none;"><img src="<?=$libraryComData["library_logo_url"]?>" class="centered" style="width:160px;vertical-align:middle;" alt="<?=$libraryComData["library_name"]?>" title="<?=$libraryComData["library_name"]?>"></a>	
 </div>
 </form>		
 </div><!--subContent-->

@@ -39,12 +39,13 @@ if (mysqli_connect_errno($con))  {
 
 //Query for libraries this user has already joined that need to be updated
 
-$query="SELECT * FROM membership m 
+$query="SELECT * FROM membership m
 	INNER JOIN user u ON m.user_record_index=u.record_index
 	INNER JOIN library l on m.library_record_index=l.record_index
 	WHERE u.userid='".$_POST["userid"]."' AND user_info_hash!='".$_POST["userHash"]."'";
 
 $result = mysqli_query($con, $query);
+$numUpdates = mysqli_num_rows($result);
 if (mysqli_num_rows($result)>0) {
 	echo '<h2 class="blue" style="clear:both;">Update your information at these libraries:</h2>';
 	echo '<table class="libTable">';
@@ -64,7 +65,7 @@ if (mysqli_num_rows($result)>0) {
 			<input type="hidden" name="libraryRecordIndex" id="libraryRecordIndex" value="<?=$_POST["libraryRecordIndex"]?>" />
 			<input type="hidden" name="joinLibrary" id="joinLibrary" value="<?=$row['record_index']?>" />
 			<h3><?=$row['library_name']?></h3>
-			<a href="javascript:void(0);" class="button bluebg join" onClick="$('.loadSpinner').hide();$('#spinner<?=$row['library_record_index']?>').show();$('#form<?=$row['library_record_index']?>').submit()">Update &#9658;</a>
+			<a href="javascript:void(0);" class="button bluebg join" onClick="$('.loadSpinner').hide();$('#spinnerU<?=$row['library_record_index']?>').show();$('#form<?=$row['library_record_index']?>').submit()">Update &#9658;</a><img src="images/ajax-loader.gif" class="loadSpinner" id="spinnerU<?=$row['library_record_index']?>"/>
 			<a class="terms" href="<?=$row['library_policy_url']?>">Terms & Conditions</a>
 		</form>
 	</td>
@@ -82,7 +83,6 @@ if (mysqli_num_rows($result)>0) {
 //Query for libraries that we are not a member of and aren't natively from
 //Later I will need to adjust this to show libraries needing an update (the hash differs from our own).
 $query="SELECT * FROM library l 
-JOIN libraryprefixes lp ON l.record_index=lp.library_record_index
 JOIN librarycom lc ON l.record_index=lc.library_record_index
 WHERE l.record_index != ".$_POST["libraryRecordIndex"]." AND l.record_index NOT IN (
 SELECT m.library_record_index from user u INNER JOIN membership m ON u.record_index = m.user_record_index 
@@ -90,7 +90,7 @@ WHERE u.userid='".$_POST["userid"]."')";
 
 $result = mysqli_query($con, $query);
 
-
+$numToJoin = mysqli_num_rows($result);
 if (mysqli_num_rows($result)>0) {
 	echo '<h2 class="blue" style="clear:both;">Choose new libraries to join.</h2>';
 	echo '<table class="libTable">';
@@ -116,23 +116,17 @@ if (mysqli_num_rows($result)>0) {
 		</tr>
 <?php		
 	}
+echo '</table>';
 }	
-	/* List the libraries from the library table, but exclude libraries that we are already registered at.*/
+
+/* Do something nice for the people who have nothing to do here */
+if (($numnumUpdates + $numToJoin) == 0) {
+	echo '<p>You have joined all available libraries and your records are up to date!</p>';
+}
 ?>
 
-<!--
-		<tr>
-		<td>
-			<a href="http://epl.ca/" style="border:none;"><img src="libraries/1.png" style="height:120px;vertical-align:middle;" alt="Edmonton Public Library" title="Edmonton Public Library"></a>
-		</td>
-		<td>
-			<h3>Edmonton Public Library</h3>
-			<a href="join.php?lib=1" class="button bluebg join">Join &#9658;</a>
-			<a class="terms" href="terms_epl.php">Terms & Conditions</a>
-		</td>
-		</tr>
--->	
-	</table>
+
+
 
 	
 </div><!--subContent-->

@@ -89,8 +89,8 @@ $customerHash=md5($customerHashData);
 		<td><?=$customer["PHONE"]?></td>
 	</tr>
 	<tr>
-		<th>Gender:</th>
-		<td><?=$customer["GENDER"]?></td>
+		<th>Sex:</th>
+		<td><?=$customer["SEX"]?></td>
 	</tr>
 	<tr>
 		<th>Date of Birth:</th>
@@ -114,7 +114,7 @@ $customerHash=md5($customerHashData);
 		<input type="hidden" name="firstName" id="firstName" value="<?=$customer["FIRSTNAME"]?>" />
 		<input type="hidden" name="lastName" id="lastName" value="<?=$customer["LASTNAME"]?>" />
 		<input type="hidden" name="libraryRecordIndex" id="libraryRecordIndex" value="<?=$data["libraryRecordIndex"]?>" />
-		<label for="agree">I accept the terms and conditions. <input type="checkbox" name="agree" id="agree" onChange="enableButton('nextButton');" /></label>
+		<label for="agree">I allow this information to be shared with other Metro libraries. <input type="checkbox" name="agree" id="agree" onChange="enableButton('nextButton');" /></label>
 
 		<span class="deadButton" id="deadButton" style="margin-left:50px;margin-right:50px;">Next &#9658;</span>
 		
