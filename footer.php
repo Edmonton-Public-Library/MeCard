@@ -1,7 +1,7 @@
 <!--- This pushes the page down so the footer doesn't overlap anything if you need to scroll to the bottom of content --->
 <div class="footer">
-<div class="footerText">Copyright 2013 | <a href="#">Terms</a> | <a href="#">Privacy Policy</a> | <a href="#">Help</a></div>
-<img src="images/me_white.png" alt="join me . show me . free me" style="width:100px;margin:16px 40px 16px 0px;float:right;" />
+<div class="footerText">Copyright 2013 | <a href="privacy.php">Terms &amp; Privacy Policy</a> | <a href="help.php">Help/FAQ</a></div>
+<a href="http://www.melibraries.ca/index.php" style="border:none;"><img src="images/me_white.png" style="border:none;" alt="join me . show me . free me" id="footerLogo" /></a>
 </div>
 </div><!--logoAndForm-->
 
@@ -17,10 +17,11 @@
 		
 		/* Validate to ensure that the numbers are the correct length/format and that there's data here.*/
 		var cardNumber = document.getElementById('cardNoField').value;
+		cardNumber = $.trim(cardNumber);
 		if (cardNumber.length == 14 && !isNaN(cardNumber)) {			
-			/* Show the waiting spinner
-			$('#enterText').hide();
-			$('#loadSpinner').show(); */
+			/* Show the waiting spinner */
+			//$('#enterText').hide();
+			$('#loadSpinner').show();
 
 			//Let's post the data with Ajax and figure out what library we are coming from.		
 			url = $('#loginForm').attr( 'action' ),
@@ -34,7 +35,8 @@
 				if (dataObj.error) {
 					$('#errorCardNo').show();
 					$('#errorCardNo').empty();
-					$('#errorCardNo').append(dataObj.errorMsg);				
+					$('#errorCardNo').append(dataObj.errorMsg);		
+					$('#loadSpinner').hide();		
 				
 				} else {
 					/* Production version will submit data to a new page - the one that shows the customer their info */
@@ -47,7 +49,10 @@
 					$('#meInfoP').append(dataObj.libraryName);*/
 				}
 			});
-		} else $('#errorCardNo').fadeIn(500);
+		} else {
+			$('#errorCardNo').fadeIn(500);
+			$('#loadSpinner').hide();
+		}
 		//$('#loginForm').submit();
 	});
 </script>

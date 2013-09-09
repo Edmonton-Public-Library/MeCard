@@ -4,12 +4,13 @@ $pageTitle="me card | Sign in";
 include 'header.php';
 ?>
 
-<div id="logoAndForm">
 <img class="centered" id="joinMeImg" src="images/join_me.png" alt="Join me" style="margin-top:30px;width:326px;height:287px;"/>
 
-<div class="centered" id="formDiv" style="padding:20px;">
-	<form name="loginForm" id="loginForm" action="get_info.php" method="post">
+<div class="centered" id="mainbox_container" style="width:740px;margin-top:10px;">
+
+<div class="mainbox" id="formDiv" style="padding:20px;">
 	<h2 style="margin-left:20px;margin-bottom:10px;">Login</h2>
+	<form name="loginForm" id="loginForm" action="get_info.php" method="post">
 	<div class="formItem">
 		<label class="login" for="cardNoField">Library card number</label><br />
 		<input type="text" class="rounded" id="cardNoField" name="cardNoField" />
@@ -36,10 +37,13 @@ include 'header.php';
 	</form>
 </div><!--formDiv-->
 
-<div style="margin:20px auto; width:340px;text-align:center;">
-<a href="Javascript:void(0);" onClick="$('#meInfo').toggle(250)">about me &#9660;</a>
-<div id="meInfo" style="display:none;"><h2 style="margin-bottom:5px;">What does me do for you?</h2><p id="meInfoP">Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit.</p></div>
-</div>
+<div id="meInfo" class="mainbox" style="display:block;"><h2 style="margin-bottom:5px;text-align:center;">What does me do?</h2><p id="meInfoP">Me gives you access to all collections<sup>*</sup> and programs offered by the Metro Edmonton Federation of Libraries (Edmonton, St. Albert, Strathcona County, and Fort Saskatchewan public libraries) using a single card!</p>
+<p>If you are over 18 years of age and have a card with any one of the Metro libraries, you can sign up here today to begin using that same card at any of the other member libraries.
+<span class="small"><sup>*</sup>eBooks and other electronic content are not included due to licensing restrictions.</span>
+</p></div>
+
+
+</div><!--centered mainbox_container-->
 
 <div id="backCurtain">
 </div>

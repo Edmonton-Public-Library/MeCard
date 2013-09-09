@@ -15,4 +15,48 @@ The process to happen:
 		-else show error saying library is unknown or card number is incorrect
 		
 	
+
+
+	INSERT into user table when the first member library is joined
 	
+	has:
+		generate hash of user info:
+		userid is card number
+		make a hash of anything than can change
+		pin, name, address, province, postalcode, email, phone, isvalid, isgoodstanding, isresident, isreciprocal
+
+
+		
+	date created is set the first
+	
+Signup page:
+------------
+
+We require the following information:
+	-card number
+	-pin?
+	-first name
+	-last name
+	-street
+	-city
+	-province
+	-postalcode
+	-email
+	-phone
+	-privilege_expires
+	-hash
+	-home library index
+
+Or... maybe I really just need the hash, home library index, firstname, lastname, 
+	
+The first time a user clicks on "sign up" we create a record for that user, and create an entry in the membership table
+	
+	
+Welcome Page
+-------------
+	-When the user signs in, we should
+		-check if the account already exists.
+		IF YES
+		-check the hash of user data against the db.
+	If the account exists and the hash is the same, we just go straight to the signup page.
+	If it exists but the hash is different, then we show the welcome page with different text and an update button.
