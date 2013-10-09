@@ -155,6 +155,25 @@
 		border-color:#00B189;
 		
 	}
+
+	.buttonlike {
+		-webkit-box-shadow: 0px 0px 13px rgba(20, 20, 20, 0.5);
+		-moz-box-shadow:    0px 0px 13px rgba(20, 20, 20, 0.5);
+		box-shadow:         0px 0px 13px rgba(20, 20, 20, 0.5);
+		text-align:center;
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+		background-color:#009775;
+		font-family:Asap, Arial, Helvetica, sans-serif;
+		font-size:18px;		
+		padding:6px 1px;
+		color:#DDD;
+		text-decoration:none;
+		border-color:#00B189;
+		
+	}
+
 	
 	
 	.button:hover {
@@ -342,16 +361,18 @@
 	
 	#loadSpinner {
 		width:126px;
-		height:22px;
+		/*height:22px;*/
 		display:none;
 		vertical-align:middle;
 	}
 	
 	.loadSpinner {
-		vertical-align:bottom;
-		margin-left:10px;
+		/*margin-left:10px;*/
 		display:none;
-		
+	}
+	
+	.loadSpinner img {
+		vertical-align:top;
 	}
 	
 	#enterText {

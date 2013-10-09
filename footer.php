@@ -18,7 +18,7 @@
 		/* Validate to ensure that the numbers are the correct length/format and that there's data here.*/
 		var cardNumber = document.getElementById('cardNoField').value;
 		cardNumber = $.trim(cardNumber);
-		if (cardNumber.length == 14 && !isNaN(cardNumber)) {			
+		if ((cardNumber.length == 14 || cardNumber.length == 13) && !isNaN(cardNumber)) {			
 			/* Show the waiting spinner */
 			//$('#enterText').hide();
 			$('#loadSpinner').show();

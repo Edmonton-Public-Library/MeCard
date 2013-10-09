@@ -18,7 +18,7 @@ $data=json_decode($_POST["jsonField"], true);
 $customer=json_decode($data["customer"], true);
 
 $customerHashData=
-	trim($customer["PIN"]) .
+	//trim($customer["PIN"]) .
 	trim($customer["FIRSTNAME"]) .
 	trim($customer["LASTNAME"]) .
 	trim($customer["DOB"]) .

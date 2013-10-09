@@ -38,7 +38,7 @@ if (!isset($_POST["jsonField"])) {
 <div class="mainContent" id="mainContent">
 
 <a href="index.php" style="border:none;"><img id="meLogoTop" src="images/Me_Logo_Color.png"/></a>
-<h1 class="pageTitle greenbg">Joining &amp; Updating</h1>
+<h1 class="pageTitle greenbg">Thanks For Joining</h1>
 
 <div class="subContent">
 
@@ -125,10 +125,10 @@ if ($result->num_rows > 0) {
 	set_time_limit(10);
 
 	// Create Socket
-	$socket = socket_create(AF_INET, SOCK_STREAM, 0) or die("Could not create socket\n");
+	//$socket = socket_create(AF_INET, SOCK_STREAM, 0) or die("Could not create socket\n");
 
 	// Connect to the server
-	if ($result = socket_connect($socket, $host, $port) == false) {
+	/*if ($result = socket_connect($socket, $host, $port) == false) {
 		$error=true;
 		$errorMsg="Can't connect to server $host on port $port";
 		echo('<div class="mainContent" id="mainContent" style="min-width:695px;"><a href="index.php" style="border:none;"><img id="meLogoTop" src="images/Me_Logo_Color.png"></a><h1 class="pageTitle bluebg">Error</h1><div class="subContent"><p class="error" style="display:inline;">'.$errorMsg.'</p><p>Please return to <a href="/">MeLibraries.ca</a>.</p></div></div>'); 
@@ -144,7 +144,7 @@ if ($result->num_rows > 0) {
 		$data=json_encode($data);
 		die ($data);
 	};
-
+*/
 	//Testing with Card No: "21221012345678", Pin: "64058","Billy, Balzac"
 	
 	if ($hasMembership) {
@@ -168,7 +168,8 @@ if ($result->num_rows > 0) {
 	$message=json_encode($message);
 	$message.="\n";
 
-	//echo "<b>Sending Message:</b>\n<br />".$message;
+	echo "<b>Sending Message:</b>\n<br />".$message;
+	/*
 	$result = (socket_write($socket, $message, strlen($message)));
 	if ($result == false) {
 		$error=true;
@@ -194,10 +195,12 @@ if ($result->num_rows > 0) {
 	//Close the socket
 	socket_close($socket);
 
-
+*/
 	
 	//If the server replied that it was successful, we can do our database fun stuff.
 	if ($serverReply["code"] == "SUCCESS") {
+		$newCustomerData = json_decode($serverReply["customer"], true);
+		$newPin = $newCustomerData["PIN"];
 		echo '<h2 class="green" style="clear:both;">';
 		if ($hasMembership) echo "Thanks for the update";
 		else echo 'Welcome to the '.$libraryComData["library_name"];
@@ -232,19 +235,17 @@ if ($result->num_rows > 0) {
 		}
 		
 		
-	} elseif ($serverReply["code"] == "PIN_CHANGE_REQUIRED") {
-		
-		$newPin = preg_replace("/^(\d+).*/", "$1", $serverReply["responseMessage"]);
+	} elseif ($serverReply["code"] == "PIN_CHANGE_REQUIRED") {		
 		echo '<h2 class="green" style="clear:both;">';
 		if ($hasMembership) {
-			echo "Thanks for the update.</h2>";
-			$pinMessage =  "<span style=\"color:red;\">Note:</span> your PIN for ".$libraryComData["library_name"]." has been changed to <b>$newPin</b>";
+			echo "Thanks for the update.";
+			echo "<br /><b>Note that your PIN has been changed to $newPin</b>";
 		} else {
-			echo 'Welcome to the '.$libraryComData["library_name"].'.</h2>';
-			$pinMessage = '<span style=\"color:red;\">Note:</span> your PIN for this library is different.<br />';
-			$pinMessage.= 'Your pin for '.$libraryComData["library_name"].' has been set to: <b>'.$newPin.'</b>';
+			echo 'Welcome to the '.$libraryComData["library_name"];
+			echo '<br /><b>Note that your PIN for this library is different.</b><br />';
+			echo 'Your pin for '.$libraryComData["library_name"].' has been set to: <b>'.$newPin.'</b>';
 		}
-
+		echo '.</h2>';
 
 	} else {
 		echo '<p class="error" style="display:block;">'.$serverReply["responseMessage"].'</p>';
@@ -282,12 +283,7 @@ if ($result->num_rows > 0) {
 			<input type="hidden" name="libraryRecordIndex" id="libraryRecordIndex" value="<?=$_POST["libraryRecordIndex"]?>" />
 
 	
-<div class="centered" style="width:90%;">	
-	<?php
-	if (isset($pinMessage)) {
-		echo '<p style="text-align:center;">'.$pinMessage.'</p>';
-	}
-	?>
+<div class="centered" style="width:600px;">	
 	<p style="margin-bottom:20px; margin-top:20px; text-align:center;">
 	<?php
 		if ($error != true) {
@@ -295,11 +291,9 @@ if ($result->num_rows > 0) {
 			else  echo "You now have access to the ".$libraryComData["library_name"];
 	?>
 	.<br />Click the logo below to visit their website, or <a class="green" href="javascript:void(0);" onclick="$('#dataForm').submit()">join another library</a>.</p>
-	
 	<?php  } // End success message ?>
-<a href="<?=$libraryComData['library_url']?>" style="border:none;width:160px;" class="centered"><img src="<?=$libraryComData["library_logo_url"]?>" class="centered" style="width:160px;vertical-align:middle;" alt="<?=$libraryComData["library_name"]?>" title="<?=$libraryComData["library_name"]?>"></a>	
+<a href="<?=$libraryComData['library_url']?>" style="border:none;"><img src="<?=$libraryComData["library_logo_url"]?>" class="centered" style="width:160px;vertical-align:middle;" alt="<?=$libraryComData["library_name"]?>" title="<?=$libraryComData["library_name"]?>"></a>	
 </div>
-<p style="text-align:center;margin-top:30px;">Note that it may take up to 5 minutes to update your account. If you are finished with this service, you can close your browser tab to end your session.</p>
 </form>		
 </div><!--subContent-->
 <div id="spacer"></div>

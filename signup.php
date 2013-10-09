@@ -18,6 +18,21 @@ if (!isset($_POST["userid"])) {
 
 ?>
 
+<script language="javascript">
+
+function submitTheForm(libIdx) {
+	//e.preventDefault();
+	$('.loadSpinner').hide();
+	$('.button').show();
+	$('#spinner'+libIdx).show();
+	$('#form'+libIdx).submit();
+	$('#joinlink'+libIdx).hide();
+	
+}
+
+</script>
+
+
 <div class="mainContent" id="mainContent" style="min-width:695px;">
 
 <a href="index.php" style="border:none;"><img id="meLogoTop" src="images/Me_Logo_Color.png"/></a>
@@ -65,7 +80,7 @@ if (mysqli_num_rows($result)>0) {
 			<input type="hidden" name="libraryRecordIndex" id="libraryRecordIndex" value="<?=$_POST["libraryRecordIndex"]?>" />
 			<input type="hidden" name="joinLibrary" id="joinLibrary" value="<?=$row['record_index']?>" />
 			<h3><?=$row['library_name']?></h3>
-			<a href="javascript:void(0);" class="button bluebg join" onClick="$('.loadSpinner').hide();$('#spinnerU<?=$row['library_record_index']?>').show();$('#form<?=$row['library_record_index']?>').submit()">Update &#9658;</a><img src="images/ajax-loader.gif" class="loadSpinner" id="spinnerU<?=$row['library_record_index']?>"/>
+			<a href="javascript:void(0);" id="joinlink<?=$row['library_record_index']?>" class="button bluebg join" onClick="submitTheForm('<?=$row['library_record_index']?>')">Update &#9658;</a><span class="loadSpinner buttonlike bluebg" id="spinner<?=$row['library_record_index']?>"><img src="images/ajax-loader.gif"/></span>
 			<a class="terms" href="<?=$row['library_policy_url']?>">Terms & Conditions</a>
 		</form>
 	</td>
@@ -109,7 +124,7 @@ if (mysqli_num_rows($result)>0) {
 				<input type="hidden" name="libraryRecordIndex" id="libraryRecordIndex" value="<?=$_POST["libraryRecordIndex"]?>" />
 				<input type="hidden" name="joinLibrary" id="joinLibrary" value="<?=$row['record_index']?>" />
 				<h3><?=$row['library_name']?></h3>
-				<a href="javascript:void(0);" class="button bluebg join" onClick="$('.loadSpinner').hide();$('#spinner<?=$row['library_record_index']?>').show();$('#form<?=$row['library_record_index']?>').submit();">Join &#9658;</a><img src="images/ajax-loader.gif" class="loadSpinner" id="spinner<?=$row['library_record_index']?>"/>
+				<a href="javascript:void(0);" id="joinlink<?=$row['library_record_index']?>" class="button bluebg join" onClick="submitTheForm('<?=$row['library_record_index']?>');">Join &#9658;</a><span class="loadSpinner buttonlike bluebg" id="spinner<?=$row['library_record_index']?>"><img src="images/ajax-loader.gif" /></span>
 				<a class="terms" href="<?=$row['library_policy_url']?>">Terms & Conditions</a>
 			</form>
 		</td>
@@ -120,7 +135,7 @@ echo '</table>';
 }	
 
 /* Do something nice for the people who have nothing to do here */
-if (($numnumUpdates + $numToJoin) == 0) {
+if (($numUpdates + $numToJoin) == 0) {
 	echo '<p>You have joined all available libraries and your records are up to date!</p>';
 }
 ?>
@@ -132,6 +147,9 @@ if (($numnumUpdates + $numToJoin) == 0) {
 </div><!--subContent-->
 <div id="spacer"></div>
 </div><!--mainContent-->
+
+
+
 <?php
 include 'footer.php';
 ?>

@@ -10,12 +10,16 @@ if (mysqli_connect_errno($con))  {
 	echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 
+
+if (strlen($_POST['cardNoField']) == 13) $numDigits=3;
+else $numDigits=5;
+
 $_POST['cardNoField'] = trim($_POST['cardNoField']);
 
 $query="SELECT * FROM library l 
 JOIN libraryprefixes lp ON l.record_index=lp.library_record_index
 JOIN librarycom lc ON l.record_index=lc.library_record_index
-WHERE lp.userid_prefix='".substr($_POST["cardNoField"], 0, 5)."';";
+WHERE lp.userid_prefix='".substr($_POST["cardNoField"], 0, $numDigits)."';";
 
 
 $result = mysqli_query($con, $query);

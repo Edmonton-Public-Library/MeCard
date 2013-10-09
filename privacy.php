@@ -29,8 +29,7 @@ include 'header.php';
 <p>By registering for the Me card, you agree to abide by the policies of each library you register with. Information regarding the policies of each library may be found below.</p>
 <ul>	
 <li><a href="http://www.epl.ca/services/borrowing-guide">Edmonton Public Library</a></li>
-<li><a href="http://www.sclibrary.ab.ca/aboutyourcard.htm">Strathcona County Library</a></li>
-<li><a href="http://www.fspl.ca/my-services/library-card-and-borrowing-information">Fort Saskatchewan Public Library</a></li>
+<li><a href="http://www.sclibrary.ab.ca/meconditions.htm">Strathcona County Library &amp; Fort Saskatchewan Public Library</a></li>
 <li><a href="http://www.sapl.ca/about-us/memberships.html">St. Albert Public Library</a></li>
 </ul>
 <p>Please report a lost card to your home library as soon as possible. Once you have a replacement home library card, contact the other libraries you’re registered with by phone or in person to update your account(s).</p>
