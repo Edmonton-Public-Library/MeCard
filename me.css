@@ -438,5 +438,15 @@
 	.mainbox h2 {
 		margin-top:0px;
 	}
+
+	.pin {
+		font-weight:bold;
+		font-size: 20px;
+	}
 	
-</style>
+	.libMessage { /*response from library after the pin, if any*/
+		display:block;
+		font-style:italic;
+		margin-top:20px;
+	}
+	

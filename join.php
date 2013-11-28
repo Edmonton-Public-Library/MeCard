@@ -234,7 +234,7 @@ if ($result->num_rows > 0) {
 		
 	} elseif ($serverReply["code"] == "PIN_CHANGE_REQUIRED") {
 		
-		$newPin = preg_replace("/^(\d+).*/", "$1", $serverReply["responseMessage"]);
+		$newPin = preg_replace("/^ ?(\d+)[\a ](.*)/", '<span class="pin">$1</span><span class="libMessage">$2</span>', $serverReply["responseMessage"]);
 		echo '<h2 class="green" style="clear:both;">';
 		if ($hasMembership) {
 			echo "Thanks for the update.</h2>";
@@ -242,7 +242,7 @@ if ($result->num_rows > 0) {
 		} else {
 			echo 'Welcome to the '.$libraryComData["library_name"].'.</h2>';
 			$pinMessage = '<span style=\"color:red;\">Note:</span> your PIN for this library is different.<br />';
-			$pinMessage.= 'Your pin for '.$libraryComData["library_name"].' has been set to: <b>'.$newPin.'</b>';
+			$pinMessage.= 'Your pin for '.$libraryComData["library_name"].' has been set to: '.$newPin;
 		}
 
 
