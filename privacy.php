@@ -21,7 +21,7 @@ include 'header.php';
 <div class="mainContent" id="mainContent">
 
 <a href="index.php" style="border:none;"><img id="meLogoTop" src="images/Me_Logo_Color.png"/></a>
-<h1 class="pageTitle greenbg">Terms of Use &amp; Privacy Policy</h1>
+<h1 class="pageTitle greenbg">Terms &amp; Privacy</h1>
 
 <div class="subContent">
 <h2>Terms of Use</h2>
@@ -31,6 +31,7 @@ include 'header.php';
 <li><a href="http://www.epl.ca/services/borrowing-guide">Edmonton Public Library</a></li>
 <li><a href="http://www.sclibrary.ab.ca/meconditions.htm">Strathcona County Library &amp; Fort Saskatchewan Public Library</a></li>
 <li><a href="http://www.sapl.ca/about-us/memberships.html">St. Albert Public Library</a></li>
+<li><a href="http://www.prl.ab.ca/meconditions">Parkland Regional Libraries</a></li>
 </ul>
 <p>Please report a lost card to your home library as soon as possible. Once you have a replacement home library card, contact the other libraries you’re registered with by phone or in person to update your account(s).</p>
 

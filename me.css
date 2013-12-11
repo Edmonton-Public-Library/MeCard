@@ -450,3 +450,8 @@
 		margin-top:20px;
 	}
 	
+	ul.columns {
+	float:left;
+	font-size:14px;
+	margin-top:0;
+	}

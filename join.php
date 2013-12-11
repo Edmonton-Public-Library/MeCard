@@ -234,7 +234,8 @@ if ($result->num_rows > 0) {
 		
 	} elseif ($serverReply["code"] == "PIN_CHANGE_REQUIRED") {
 		
-		$newPin = preg_replace("/^ ?(\d+)[\a ](.*)/", '<span class="pin">$1</span><span class="libMessage">$2</span>', $serverReply["responseMessage"]);
+		$newPin = preg_replace("/^ ?(\d+)[\a\s:](.*)/", '<span class="pin">$1</span><span class="libMessage">$2</span>', $serverReply["responseMessage"]);
+		$newNakedPin = preg_replace("/^ ?(\d+)[\a\s:](.*)/", '$1', $serverReply["responseMessage"]);
 		echo '<h2 class="green" style="clear:both;">';
 		if ($hasMembership) {
 			echo "Thanks for the update.</h2>";
@@ -243,6 +244,51 @@ if ($result->num_rows > 0) {
 			echo 'Welcome to the '.$libraryComData["library_name"].'.</h2>';
 			$pinMessage = '<span style=\"color:red;\">Note:</span> your PIN for this library is different.<br />';
 			$pinMessage.= 'Your pin for '.$libraryComData["library_name"].' has been set to: '.$newPin;
+
+			
+			//Send an email to the customer if they have a valid email address
+			if (strlen($customer["EMAIL"]) > 5) {
+				require_once "Mail.php";
+
+				$from = "Me Libaries <noreply@melibraries.ca>";
+				$to = $customer["FIRSTNAME"]." ".$customer["LASTNAME"]." <".$customer["EMAIL"].">";
+				$subject = 'You have joined '.$libraryComData["library_name"];
+				$body = "This is a friendly notice that the you now have joined ".$libraryComData["library_name"];
+				$body .= " and now have access to its collections with your home library card number!\n";
+				$body .= "Visit ".$libraryComData["library_name"]." at ".$libraryComData["library_url"];
+
+				//Add a comment about the new PIN if it has been changed
+				if ($serverReply["code"] == "PIN_CHANGE_REQUIRED") {
+						
+					//$newPin is set above
+					$body .= "\n\nNote: Your PIN for ".$libraryComData["library_name"]." is different.\nIt has been set to ".$newNakedPin.".";
+				}
+
+				$host = "mail1.epl.ca";
+
+				$headers = array (
+					'From' => $from,
+					'To' => $to,
+					'Subject' => $subject);
+					
+				$smtp = Mail::factory(
+					'smtp',
+					array (
+						'host' => $host,
+						'auth' => false)
+					);
+
+				$mail = $smtp->send($to, $headers, $body);
+
+				if (PEAR::isError($mail)) {
+				  echo("<p>" . $mail->getMessage() . "</p>");
+				} else {
+				  echo('<p>You have been sent an email about the following:</p>');
+				}
+			}//END - If email longer than 3 characters
+
+			
+			
 		}
 
 
@@ -260,13 +306,14 @@ if ($result->num_rows > 0) {
 	<pre class="debug">
 		<?php #Diagnostics crap 
 			print_r($userInfo);
+			echo "Customer:<br />";
+			print_r($customer);
+			
 		/*
 			print_r($_POST);
 			echo "<br />";
 			print_r($libraryComData);
 			echo "<br />";
-			echo "Customer:<br />";
-			print_r($customer);
 			echo "serverReply:<br />";
 			print_r($serverReply);
 		*/?>

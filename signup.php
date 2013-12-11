@@ -65,6 +65,7 @@ if (mysqli_num_rows($result)>0) {
 	echo '<h2 class="blue" style="clear:both;">Update your information at these libraries:</h2>';
 	echo '<table class="libTable">';
 	while($row = mysqli_fetch_assoc($result)) {
+		if ($row['disabled'] !=1) {
 	?>
 	
 	<tr>
@@ -88,6 +89,7 @@ if (mysqli_num_rows($result)>0) {
 
 
 	<?php
+		}//end hide if not disabled
 	}
 	echo '</table><!--updatable libraries table-->';
 }
@@ -110,6 +112,7 @@ if (mysqli_num_rows($result)>0) {
 	echo '<h2 class="blue" style="clear:both;">Choose new libraries to join.</h2>';
 	echo '<table class="libTable">';
 	while($row = mysqli_fetch_assoc($result)) {
+		if ($row['disabled'] !=1) {
 ?>
 		<tr>
 		<td>
@@ -129,7 +132,8 @@ if (mysqli_num_rows($result)>0) {
 			</form>
 		</td>
 		</tr>
-<?php		
+<?php
+		}//end hide if not disabled
 	}
 echo '</table>';
 }	

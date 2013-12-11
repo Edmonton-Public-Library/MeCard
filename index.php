@@ -37,8 +37,8 @@ include 'header.php';
 	</form>
 </div><!--formDiv-->
 
-<div id="meInfo" class="mainbox" style="display:block;"><h2 style="margin-bottom:5px;text-align:center;">What does me do?</h2><p id="meInfoP">Me gives you access to all collections<sup>*</sup> and programs offered by the Metro Edmonton Federation of Libraries (Edmonton, St. Albert, Strathcona County, and Fort Saskatchewan public libraries) using a single card!</p>
-<p>If you are over 18 years of age and have a card with any one of the Metro libraries, you can sign up here today to begin using that same card at any of the other member libraries.
+<div id="meInfo" class="mainbox" style="display:block;"><h2 style="margin-bottom:5px;text-align:center;">What does me do?</h2><p id="meInfoP">Me gives you access to all collections<sup>*</sup> offered by <a href="participating.php">participating Libraries</a> using a single card!</p>
+<p>If you are over 18 years of age and have a card with any one of the Me libraries, you can sign up here today to begin using that same card at any of the other member libraries.
 <span class="small"><sup>*</sup>eBooks and other electronic content are not included due to licensing restrictions.</span>
 </p></div>
 
