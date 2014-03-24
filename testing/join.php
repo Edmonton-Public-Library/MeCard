@@ -95,7 +95,78 @@ if ($result->num_rows > 0) {
 }
 
 
+
+
+/* checkDuplicates function sets the right data in the customer array prior to submission to MeCard server
+	-we won't necessarily know a userIdx but we will know their card number.
+*/
+function checkDuplicates($cardNumber, $customerHash) {
+	global $customer;
+	//DB Query to determine if any other hashes exist for this user
+	$dupeQuery="SELECT * FROM user WHERE record_index=(SELECT DISTINCT user_record_index FROM membership
+				WHERE user_info_hash ='".$customerHash."')
+				AND userid != '".$cardNumber."'
+				ORDER BY date_created DESC
+				LIMIT 1";
+
+	$dupeResult = mysqli_query($con, $dupeQuery);
+	if (mysqli_num_rows($dupeResult)>0) {
+	//Duplicate Found
+		while($row = mysqli_fetch_assoc($dupeResult)) {
+			$mostRecentDupeUserCard=$row['userid'];
+		}
+		//Now edit ISLOSTCARD and ALTERNATE_ID (scope issues here requiring global?)
+		$customer['ISLOSTCARD'] = 'Y';
+		$customer['ALTERNATE_ID'] = $mostRecentDupeUserCard;
+	}//end duplicate found
+}//end function checkDuplicates
+
+
+
+/* Function to handle Duplicate cards after new user has been created
+	-Pass the index for the new customer we just created
+	-Determine the hash for this user
+	-Find other accounts with this hash
+	-Store the most recent card number in a variable
+	-Update that into the customer's lost_card field
+	-Delete old user's prior memberships
+*/
+function removeDuplicates($newUserIdx) {
+	//Given the user idx, query for the user_info_hash
+	$userQuery="SELECT user_info_hash FROM membership WHERE user_record_index ='".$newUserIdx."' LIMIT 1";
+	$userResult = mysqli_query($con, $userQuery);
+	if (mysqli_num_rows($userResult)>0) {
+		while($row = mysqli_fetch_assoc($userResult)) {	
+			$user_info_hash=$row['user_info_hash'];
+		}
+		
+		//DB Query to determine if any other hashes exist for this user
+		$dupeQuery="SELECT * FROM user WHERE record_index=(SELECT DISTINCT user_record_index FROM membership
+					WHERE user_info_hash ='".$user_info_hash."' AND user_record_index !='".$newUserIdx."')
+					ORDER BY date_created ASC";
+
+		$dupeResult = mysqli_query($con, $dupeQuery);
+		if (mysqli_num_rows($dupeResult)>0) {
+		//Duplicates Found
+			while($row = mysqli_fetch_assoc($dupeResult)) {				
+				$mostRecentDupeUserIdx=$row['record_index'];
+				$mostRecentDupeUserCard=$row['userid'];
+				/* Here I blow away the duplicate accounts (but not the current one!) */
+				$delMemberQuery="DELETE FROM membership WHERE user_record_index=$mostRecentDupeUserIdx";
+				//$result=mysqli_query($con, $delMemberQuery);
+				
+				$delUserQuery="DELETE FROM user WHERE record_index=$mostRecentDupeUserIdx";
+				//$result=mysqli_query($con, $delUserQuery);
+			}
+			$updateUserQuery="UPDATE user WHERE record_index=$newUserIdx SET lost_card='$mostRecentDupeUserCard'";
+			$result=mysqli_query($con, $updateUserQuery);
+			
+		}//end: If there are duplicates
+	}//end: If the user account is found
 	
+}//end function removeDuplicates	
+
+
 
 /* Do Socket connection and add user to foreign library 	*/
 	//Token/API Key
@@ -145,7 +216,9 @@ if ($result->num_rows > 0) {
 		die ($data);
 	};
 
-	//Testing with Card No: "21221012345678", Pin: "64058","Billy, Balzac"
+	//Before this step, we need to see if ISLOSTCARD and ALTERNATE_ID need modification.
+	//checkDuplicates will get the job done and modify data in the $customer array.
+	checkDuplicates($_POST["userid"], $_POST["userHash"]);
 	
 	if ($hasMembership) {
 		$message=array(
@@ -153,7 +226,7 @@ if ($result->num_rows > 0) {
 			"authorityToken" => "55u1dqzu4tfSk2V4u5PW6VTMqi9bzt2d",
 			"userId" => '',
 			"pin" => '',
-			"customer" => $submitData["customer"]
+			"customer" => json_encode($customer)
 			);
 	
 	} else {
@@ -162,7 +235,7 @@ if ($result->num_rows > 0) {
 			"authorityToken" => "55u1dqzu4tfSk2V4u5PW6VTMqi9bzt2d",
 			"userId" => '',
 			"pin" => '',
-			"customer" => $submitData["customer"]
+			"customer" => json_encode($customer)
 			);
 	}
 	$message=json_encode($message);
@@ -229,7 +302,7 @@ if ($result->num_rows > 0) {
 		$result = mysqli_query($con,$query);
 		if ( false===$result ) {
 			printf('<p class="error" style="display:block;">SQL error: %s</p>\n', mysqli_error($con));
-		}
+		} else removeDuplicates($user_record_index); //Remove the duplicates
 		
 		
 	} elseif ($serverReply["code"] == "PIN_CHANGE_REQUIRED") {
@@ -318,11 +391,10 @@ if ($result->num_rows > 0) {
 		$result = mysqli_query($con,$query);
 		if ( false===$result ) {
 			printf('<p class="error" style="display:block;">SQL error: %s</p>\n', mysqli_error($con));
-		}
+		} else removeDuplicates($user_record_index); //Remove the duplicates
 
-		
-		
-
+		// I should define $error here
+	
 	} else {
 		echo '<p class="error" style="display:block;">'.$serverReply["responseMessage"].'</p>';
 		$error=true;

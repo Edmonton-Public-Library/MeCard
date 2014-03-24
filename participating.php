@@ -90,8 +90,25 @@ include 'header.php';
 	</ul><!--columns-->
 	<li style="clear:left;">St. Albert Public Library</li>
 	<li>Strathcona County Library</li>
+	<li>Shortgrass Library System</li>
+	<ul class="columns">
+		<li>Alcoma Community Library</li>
+		<li>Bassano Memorial Library</li>
+		<li>Bow Island Municipal Library</li>
+		<li>Brooks Public Library</li>
+		<li>Duchess &amp; District Public Library</li>
+		<li>Foremost Municipal Library</li>
+	</ul><!--columns-->
+	<ul class="columns">
+		<li>Graham Community Library</li>
+		<li>Medicine Hat Public Library</li>
+		<li>Redcliff Public Library</li>
+		<li>Rolling Hills Public Library</li>
+		<li>Rosemary Community Library</li>
+		<li>Tilley &amp; District Public Library</li>
+	</ul><!--columns-->
 </ul>
-
+<div style="clear:left;"></div>
 
 
 
