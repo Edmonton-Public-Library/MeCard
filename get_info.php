@@ -128,33 +128,36 @@ if (mysqli_num_rows($result)>0) {
 	//Close the socket
 	socket_close($socket);
 
+
+
+	/* Do error handling here: no connection, invalid credentials, etc
+	OK, SUCCESS, FAIL, ERROR, UNKNOWN, BUSY, UNAVAILABLE */
+
+		/* Merge new JSON to the data I already have so I still have the library info. */
+		$resultArr=json_decode($result, true);
+		//echo $result;
+		$data = array_merge_recursive($data, $resultArr);
+
+		switch ($data["code"]) {
+			case "FAIL";
+			case "ERROR";
+			case "UNKNOWN";
+			case "UNAVAILABLE";
+			case "UNAUTHORIZED";
+				$data["error"]=true;
+				$data["errorMsg"]=$data["responseMessage"];
+				break;
+		}
+		
+		$dataJSON=json_encode($data);
+		echo $dataJSON;
 	
 	
 /* If we can't match the card number to a library, return an error to that effect. */
 } else {
 	$data = array("error" => true, "errorMsg" => "Unknown card number");
-}
-
-/* Do error handling here: no connection, invalid credentials, etc
-OK, SUCCESS, FAIL, ERROR, UNKNOWN, BUSY, UNAVAILABLE */
-
-	/* Merge new JSON to the data I already have so I still have the library info. */
-	$resultArr=json_decode($result, true);
-	//echo $result;
-	$data = array_merge_recursive($data, $resultArr);
-
-	switch ($data["code"]) {
-		case "FAIL";
-		case "ERROR";
-		case "UNKNOWN";
-		case "UNAVAILABLE";
-		case "UNAUTHORIZED";
-			$data["error"]=true;
-			$data["errorMsg"]=$data["responseMessage"];
-			break;
-	}
-	
 	$dataJSON=json_encode($data);
 	echo $dataJSON;
+}
 
 ?>

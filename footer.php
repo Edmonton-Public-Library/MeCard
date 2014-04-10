@@ -1,6 +1,6 @@
 <!--- This pushes the page down so the footer doesn't overlap anything if you need to scroll to the bottom of content --->
 <div class="footer">
-<div class="footerText">Copyright 2013 | <a href="privacy.php" target="_blank">Terms &amp; Privacy Policy</a> | <a href="help.php" target="_blank">Help/FAQ</a> | <a href="participating.php" target="_blank">Participating Libraries</a></div>
+<div class="footerText">Copyright <?php echo date("Y"); ?> | <a href="privacy.php" target="_blank">Terms &amp; Privacy Policy</a> | <a href="help.php" target="_blank">Help/FAQ</a> | <a href="participating.php" target="_blank">Participating Libraries</a></div>
 <a href="http://www.melibraries.ca/index.php" style="border:none;"><img src="images/me_white.png" style="border:none;" alt="join me . show me . free me" id="footerLogo" /></a>
 </div>
 </div><!--logoAndForm-->

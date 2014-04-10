@@ -25,7 +25,9 @@ include 'header.php';
 
 <div class="subContent">
 <h2>Me Card Frequently Asked Questions - Make Your Library Card a Me Card!</h2>
-<p>The Metro Edmonton Federation of Libraries members are Edmonton Public Library, Ft. Saskatchewan Public Library, St. Albert Public Library, and Strathcona County Library. The Metro Federation members share an interest in collaborating to increase access to library collections and programs for our customers across the Metro Edmonton region. The Me Card project was created to reduce barriers, granting access to the library collections and diverse programs of the Metro Edmonton Federation libraries.</p>
+<!--<p>The Metro Edmonton Federation of Libraries members are Edmonton Public Library, Ft. Saskatchewan Public Library, St. Albert Public Library, and Strathcona County Library. The Metro Federation members share an interest in collaborating to increase access to library collections and programs for our customers across the Metro Edmonton region. The Me Card project was created to reduce barriers, granting access to the library collections and diverse programs of the Metro Edmonton Federation libraries.</p>-->
+
+<p>Alberta wide borrowing is here! Me Libraries lets you join other public libraries across Alberta and borrow their materials using ONE library card. Me Libraries is a service of Alberta Public Library Network.</p>
 
 <h3>Overview</h3>
 <ul>
@@ -90,7 +92,7 @@ include 'header.php';
 	</li>
 
 	<li><span class="question">What if I lose my home library card and/or get a replacement home library card for any reason?</span>
-		<span class="answer">Please report a lost card to your home library as soon as possible. Once you have a replacement home library card, contact the other libraries you registered with by phone or in person to update your account(s). </span>
+		<span class="answer">Please report a lost card to your home library as soon as possible. Once you have a replacement home library card, login to  Me Libraries with your new card number and PIN. Choose the “update” option for each library you have joined.</span>
 	</li>
 
 	<li><span class="question">What will my membership term be with at the libraries I register with?</span>

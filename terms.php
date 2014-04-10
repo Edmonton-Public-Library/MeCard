@@ -26,12 +26,18 @@ include 'header.php';
 <div class="subContent">
 
 <p>By registering for the Me card, you agree to abide by the policies of each library you register with. Information regarding the policies of each library may be found below.</p>
-<ul>	
-<li><a href="http://www.epl.ca/services/borrowing-guide">Edmonton Public Library</a></li>
-<li><a href="http://www.sclibrary.ab.ca/aboutyourcard.htm">Strathcona County Public Library</a></li>
-<li><a href="http://www.fspl.ca/my-services/library-card-and-borrowing-information">Fort Saskatchewan Public Library</a></li>
-<li><a href="http://www.sapl.ca/about-us/memberships.html">St. Albert Public Library</a></li>
-<li><a href="http://www.prl.ab.ca/meconditions">Parkland Regional Libraries</a></li>
+<ul>
+<?php
+	//Query for library Terms of Use pages
+	include '/home/its/mysql_config.php';
+	$query="SELECT * FROM library WHERE disabled !=1 ORDER BY library_name";
+
+	$result = mysqli_query($con, $query);
+	while($row = mysqli_fetch_assoc($result)) {
+		echo '<li><a href="'.$row['library_policy_url'].'">'.$row['library_name'].'</a></li>';
+	}
+
+?>
 </ul>
 
 <p>Please report a lost card to your home library as soon as possible. Once you have a replacement home library card, contact the other libraries you’re registered with by phone or in person to update your account(s).</p>
