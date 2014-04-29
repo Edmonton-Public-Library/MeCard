@@ -1,5 +1,63 @@
-<!DOCTYPE html>
+<?php
+//Set max idle_time to 5 minutes (300 seconds)
+define("MAX_IDLE_TIME", 300);
 
+//Track number of pages viewed just for fun
+if(isset($_SESSION['views']))
+$_SESSION['views']=$_SESSION['views']+1;
+else
+$_SESSION['views']=1;
+//echo "Views=". $_SESSION['views'];
+
+
+//Timeout the session if the user hasn't loaded a page in a few minutes
+if (!isset($_SESSION['timeout_idle']) || basename($_SERVER['PHP_SELF']) != 'get_info.php') {
+    $_SESSION['timeout_idle'] = time() + MAX_IDLE_TIME;
+} elseif ($_SESSION['timeout_idle'] < time()) {    
+        //destroy session
+		session_destroy();
+		if (basename($_SERVER['PHP_SELF']) != 'index.php'
+			&& basename($_SERVER['PHP_SELF']) != 'privacy.php'
+			&& basename($_SERVER['PHP_SELF']) != 'help.php'
+			&& basename($_SERVER['PHP_SELF']) != 'participating.php') {
+			header("Location: index.php?timeout");
+		}
+    } else {$_SESSION['timeout_idle'] = time() + MAX_IDLE_TIME;}
+
+//Requires the user's IP to match the one that the session was started with
+if (!isset($_SESSION['originating_ip'])) {
+	$_SESSION['originating_ip']=$_SERVER['REMOTE_ADDR'];
+}elseif ($_SESSION['originating_ip']!=$_SERVER['REMOTE_ADDR']) {
+		session_destroy();//Hasta la vista, baby
+};
+
+
+//Ensure the user has agreed to our terms before allowing them in.
+if (!isset($_SESSION['agree'])
+	&& basename($_SERVER['PHP_SELF']) != 'logout.php'
+	&& basename($_SERVER['PHP_SELF'])!= 'index.php'
+	&& basename($_SERVER['PHP_SELF']) != 'privacy.php'
+	&& basename($_SERVER['PHP_SELF']) != 'help.php'
+	&& basename($_SERVER['PHP_SELF']) != 'participating.php'	
+	&& basename($_SERVER['PHP_SELF'])!= 'welcome.php') {
+	header("Location: welcome.php"); 
+}
+
+
+//Kick the user back to the login screen if they don't have a customer array (and thus haven't successfully logged in)
+//Informational pages are exempted from this.
+if (!isset($_SESSION['customer']) 
+	&& basename($_SERVER['PHP_SELF']) != 'logout.php'
+	&& basename($_SERVER['PHP_SELF']) != 'privacy.php'
+	&& basename($_SERVER['PHP_SELF']) != 'help.php'
+	&& basename($_SERVER['PHP_SELF']) != 'participating.php'
+	&& basename($_SERVER['PHP_SELF']) != 'index.php') {
+	header("Location: index.php");
+	die();
+}
+
+?>
+<!DOCTYPE html>
 <html>
 
 <head>

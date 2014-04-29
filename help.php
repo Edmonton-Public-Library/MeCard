@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 $pageTitle="ME Libraries | Sign up";
 include 'header.php';
 

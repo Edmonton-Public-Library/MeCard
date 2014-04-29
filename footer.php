@@ -1,6 +1,11 @@
 <!--- This pushes the page down so the footer doesn't overlap anything if you need to scroll to the bottom of content --->
 <div class="footer">
-<div class="footerText">Copyright <?php echo date("Y"); ?> | <a href="privacy.php" target="_blank">Terms &amp; Privacy Policy</a> | <a href="help.php" target="_blank">Help/FAQ</a> | <a href="participating.php" target="_blank">Participating Libraries</a></div>
+<div class="footerText">Copyright <?php echo date("Y"); ?> | <a href="privacy.php" target="_blank">Terms &amp; Privacy Policy</a> | <a href="help.php" target="_blank">Help/FAQ</a> | <a href="participating.php" target="_blank">Participating Libraries</a>
+<?php
+	if (isset($_SESSION['customer'])) {
+		echo '| <a href="logout.php" style="font-weight:bold;">Log Out</a>';
+	}?>
+</div>
 <a href="http://www.melibraries.ca/index.php" style="border:none;"><img src="images/ME_logo.png" style="border:none;" alt="ME Libraries" id="footerLogo" /></a>
 </div>
 </div><!--logoAndForm-->
@@ -11,7 +16,6 @@
 	$(document).on('submit', '#loginForm', function(event) {
 		/* stop form from submitting normally */
 		event.preventDefault();
-		
 		/* hide our error message if it's displayed */		
 		$('#errorCardNo').hide();
 		
@@ -33,24 +37,17 @@
 				dataObj = JSON.parse(data);
 				
 				if (dataObj.error) {
-					$('#errorCardNo').show();
 					$('#errorCardNo').empty();
 					$('#errorCardNo').append(dataObj.errorMsg);		
+					$('#errorCardNo').fadeIn(300);
 					$('#loadSpinner').hide();		
 				
 				} else {
-					/* Production version will submit data to a new page - the one that shows the customer their info */
-					//Insert our JSON into the jsonField
-					$('#jsonField').val(data)
-					$('#jsonForm').submit();
-					
-					/*$('#meInfo').show();
-					$('#meInfoP').empty();
-					$('#meInfoP').append(dataObj.libraryName);*/
+					document.location.href='welcome.php';
 				}
 			});
 		} else {
-			$('#errorCardNo').fadeIn(500);
+			$('#errorCardNo').fadeIn(300);
 			$('#loadSpinner').hide();
 		}
 		//$('#loginForm').submit();

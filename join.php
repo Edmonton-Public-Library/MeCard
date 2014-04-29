@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 $pageTitle="ME Libraries | Join";
 include 'header.php';
@@ -19,25 +20,11 @@ include 'header.php';
 	);	
 */
 
-
-//The data passed from the submitting page
-$submitData=json_decode($_POST["jsonField"], true);
-//Customer information in a nice array
-$customer=json_decode($submitData["customer"], true);
-
-
-if (!isset($_POST["jsonField"])) {
-	echo('<div class="mainContent" id="mainContent" style="min-width:695px;"><a href="index.php" style="border:none;"><img id="meLogoTop" src="images/Me_Logo_Color.png"></a><h1 class="pageTitle bluebg">Error</h1><div class="subContent"><p>Please return to <a href="/">MeLibraries.ca</a>.</p></div></div>'); 
-	include 'footer.php';
-	exit();
-}
-
-
 ?>
 
 <div class="mainContent" id="mainContent">
 
-<a href="index.php" style="border:none;" title="Return to Login"><img id="meLogoTop" src="images/ME_Libraries_Logo_black.png"/></a>
+<a href="logout.php" style="border:none;" title="Return to Login"><img id="meLogoTop" src="images/ME_Libraries_Logo_black.png"/></a>
 <h1 class="pageTitle greenbg">Joining &amp; Updating</h1>
 
 <div class="subContent">
@@ -73,7 +60,7 @@ if ($result=mysqli_query($con, $query)) {
 $query="select u.record_index, m.record_index AS member_record_index, u.userid, u.home_library_record_index, m.user_record_index, m.library_record_index FROM user u
 	INNER JOIN membership m
 	ON u.record_index = m.user_record_index
-	WHERE u.userid='".$_POST["userid"]."' AND m.library_record_index=".$_POST["joinLibrary"];
+	WHERE u.userid='".$_SESSION["customer"]["ID"]."' AND m.library_record_index=".$_POST["joinLibrary"];
 
 
 $userExists=false;
@@ -86,7 +73,7 @@ if ($result->num_rows > 0) {
 		$userExists=true;
 } else {
 	//Now check that the user exists at all
-	$query="select * from user WHERE userid='".$_POST["userid"]."'";
+	$query="select * from user WHERE userid='".$_SESSION["customer"]["ID"]."'";
 	$result=mysqli_query($con, $query);
 	if ($result->num_rows > 0) {
 		$userInfo = mysqli_fetch_assoc($result);
@@ -131,7 +118,7 @@ if ($result->num_rows > 0) {
 	if ($result = socket_connect($socket, $host, $port) == false) {
 		$error=true;
 		$errorMsg="Can't connect to server $host on port $port";
-		echo('<div class="mainContent" id="mainContent" style="min-width:695px;"><a href="index.php" style="border:none;"><img id="meLogoTop" src="images/Me_Logo_Color.png"></a><h1 class="pageTitle bluebg">Error</h1><div class="subContent"><p class="error" style="display:inline;">'.$errorMsg.'</p><p>Please return to <a href="/">MeLibraries.ca</a>.</p></div></div>'); 
+		echo('<h2>Error</h2><div class="subContent"><p class="error" style="display:inline;">'.$errorMsg.'</p><p>Please return to <a href="/">MeLibraries.ca</a>.</p></div>'); 
 		include 'footer.php';
 		exit();
 	}
@@ -153,7 +140,7 @@ if ($result->num_rows > 0) {
 			"authorityToken" => "55u1dqzu4tfSk2V4u5PW6VTMqi9bzt2d",
 			"userId" => '',
 			"pin" => '',
-			"customer" => $submitData["customer"]
+			"customer" => json_encode($_SESSION["customer"])
 			);
 	
 	} else {
@@ -162,7 +149,7 @@ if ($result->num_rows > 0) {
 			"authorityToken" => "55u1dqzu4tfSk2V4u5PW6VTMqi9bzt2d",
 			"userId" => '',
 			"pin" => '',
-			"customer" => $submitData["customer"]
+			"customer" => json_encode($_SESSION["customer"])
 			);
 	}
 	$message=json_encode($message);
@@ -206,7 +193,7 @@ if ($result->num_rows > 0) {
 		//Insert the new user if he doesn't exist yet
 		if ($userExists == false) {
 			$query="INSERT INTO user (userid, home_library_record_index, date_last_activity, date_created)
-			VALUES('".$_POST["userid"]."','".$_POST["libraryRecordIndex"]."', NOW(), NOW())";
+			VALUES('".$_SESSION["customer"]["ID"]."','".$_SESSION["libraryData"]["libraryRecordIndex"]."', NOW(), NOW())";
 			$result = mysqli_query($con,$query);
 			if ( false===$result ) {
 				printf('<p class="SQL error" style="display:block;">error: %s</p>\n', mysqli_error($con));
@@ -219,11 +206,11 @@ if ($result->num_rows > 0) {
 		
 		if ($hasMembership == false) {
 			$query="INSERT INTO membership (user_record_index, library_record_index, date_last_activity, user_info_hash)
-			VALUES('".$user_record_index."','".$_POST["joinLibrary"]."', NOW(), '".$_POST["userHash"]."')";
+			VALUES('".$user_record_index."','".$_POST["joinLibrary"]."', NOW(), '".$_SESSION["customerHash"]."')";
 		}
 		else {
 			//else we update an existing record
-			$query="UPDATE membership SET date_last_activity=NOW(), user_info_hash='".$_POST["userHash"]."' WHERE record_index='".$userInfo["member_record_index"]."'";
+			$query="UPDATE membership SET date_last_activity=NOW(), user_info_hash='".$_SESSION["customerHash"]."' WHERE record_index='".$userInfo["member_record_index"]."'";
 		}
 		//Execute the insert or update query.
 		$result = mysqli_query($con,$query);
@@ -247,11 +234,11 @@ if ($result->num_rows > 0) {
 
 			
 			//Send an email to the customer if they have a valid email address
-			if (strlen($customer["EMAIL"]) > 5) {
+			if (strlen($_SESSION["customer"]["EMAIL"]) > 5) {
 				require_once "Mail.php";
 
 				$from = "Me Libaries <noreply@melibraries.ca>";
-				$to = $customer["FIRSTNAME"]." ".$customer["LASTNAME"]." <".$customer["EMAIL"].">";
+				$to = $_SESSION["customer"]["FIRSTNAME"]." ".$_SESSION["customer"]["LASTNAME"]." <".$_SESSION["customer"]["EMAIL"].">";
 				$subject = 'You have joined '.$libraryComData["library_name"];
 				$body = "This is a friendly notice that the you now have joined ".$libraryComData["library_name"];
 				$body .= " and now have access to its collections with your home library card number!\n";
@@ -295,7 +282,7 @@ if ($result->num_rows > 0) {
 		//Do database inserts for when PIN Changes is required - new user
 		if ($userExists == false) {
 			$query="INSERT INTO user (userid, home_library_record_index, date_last_activity, date_created)
-			VALUES('".$_POST["userid"]."','".$_POST["libraryRecordIndex"]."', NOW(), NOW())";
+			VALUES('".$_SESSION["customer"]["ID"]."','".$_SESSION["libraryData"]["libraryRecordIndex"]."', NOW(), NOW())";
 			$result = mysqli_query($con,$query);
 			if ( false===$result ) {
 				printf('<p class="SQL error" style="display:block;">error: %s</p>\n', mysqli_error($con));
@@ -308,11 +295,11 @@ if ($result->num_rows > 0) {
 		
 		if ($hasMembership == false) {
 			$query="INSERT INTO membership (user_record_index, library_record_index, date_last_activity, user_info_hash)
-			VALUES('".$user_record_index."','".$_POST["joinLibrary"]."', NOW(), '".$_POST["userHash"]."')";
+			VALUES('".$user_record_index."','".$_POST["joinLibrary"]."', NOW(), '".$_SESSION["customerHash"]."')";
 		}
 		else {
 			//else we update an existing record
-			$query="UPDATE membership SET date_last_activity=NOW(), user_info_hash='".$_POST["userHash"]."' WHERE record_index='".$userInfo["member_record_index"]."'";
+			$query="UPDATE membership SET date_last_activity=NOW(), user_info_hash='".$_SESSION["customerHash"]."' WHERE record_index='".$userInfo["member_record_index"]."'";
 		}
 		//Execute the insert or update query.
 		$result = mysqli_query($con,$query);
@@ -328,17 +315,12 @@ if ($result->num_rows > 0) {
 		$error=true;
 	}
 	
-	
-
-?>
-
-
-
-	<pre class="debug">
-		<?php #Diagnostics crap 
+//Show debug info only for JD at EPL
+if ($_SESSION['originating_ip']=='10.3.0.79'){	
+	echo '<pre class="debug">';
 			print_r($userInfo);
 			echo "Customer:<br />";
-			print_r($customer);
+			print_r($_SESSION['customer']);
 			
 		/*
 			print_r($_POST);
@@ -347,18 +329,11 @@ if ($result->num_rows > 0) {
 			echo "<br />";
 			echo "serverReply:<br />";
 			print_r($serverReply);
-		*/?>
-	</pre>		
+		*/	
+	echo '</pre>';
+}?>		
 
 	
-<form name="dataForm" id="dataForm" action="signup.php" method="post">
-			<input type="hidden" name="jsonField" id="jsonField" value="<?=htmlspecialchars ($_POST["jsonField"])?>" />
-			<input type="hidden" name="userid" id="userid" value="<?=$_POST["userid"]?>" />
-			<input type="hidden" name="userHash" id="userHash" value="<?=$_POST["userHash"]?>" />
-			<input type="hidden" name="firstName" id="firstName" value="<?=$_POST["firstName"]?>" />
-			<input type="hidden" name="lastName" id="lastName" value="<?=$_POST["lastName"]?>" />
-			<input type="hidden" name="libraryRecordIndex" id="libraryRecordIndex" value="<?=$_POST["libraryRecordIndex"]?>" />
-
 	
 <div class="centered" style="width:90%;">	
 	<?php
@@ -372,13 +347,17 @@ if ($result->num_rows > 0) {
 			if ($hasMembership) echo "Your record at ".$libraryComData["library_name"]." is now up to date";
 			else  echo "You now have access to the ".$libraryComData["library_name"];
 	?>
-	.<br />Click the logo below to visit their website, or <a class="green" href="javascript:void(0);" onclick="$('#dataForm').submit()">join another library</a>.</p>
+	.<br />Click the logo below to visit their website, or <a class="green" href="signup.php">join another library</a>.</p>
 	
 	<?php  } // End success message ?>
 <a href="<?=$libraryComData['library_url']?>" style="border:none;height:160px;" class="centered"><img src="<?=$libraryComData["library_logo_url"]?>" class="centered" style="height:160px;vertical-align:middle;" alt="<?=$libraryComData["library_name"]?>" title="<?=$libraryComData["library_name"]?>"></a>	
 </div>
 <p style="text-align:center;margin-top:30px;">Note that it may take up to 5 minutes to update your account. If you are finished with this service, you can close your browser tab to end your session.</p>
-</form>		
+<p style="text-align:center;font-weight:bold;">
+<a href="signup.php">Join/Update more libraries</a>
+<br /><br />
+<a href="logout.php">Logout of ME Libraries</a>
+</p>
 </div><!--subContent-->
 <div id="spacer"></div>
 </div><!--mainContent-->

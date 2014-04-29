@@ -1,7 +1,17 @@
 <?php
+session_start();
+
+/* If the user is already signed in with a valid session, don't make them login again. */
+if (isset($_SESSION['agree']) && isset($_SESSION['customer']['ID'])){
+	header("Location: signup.php"); 
+} elseif (isset($_SESSION['customer']['ID'])) {
+	header("Location: welcome.php"); 
+}
+
 
 $pageTitle="me card | Sign in";
 include 'header.php';
+
 ?>
 
 <img class="centered" id="joinMeImg" src="images/JOIN_ME_White_Square.png" alt="Join me" style="margin-top:8px;width:326px;height:326px;"/>
@@ -21,11 +31,15 @@ include 'header.php';
 	<div class="centered" id="mainbox_container2" style="float:right;right:50%;position:relative;margin-bottom:10px;">
 		<div class="mainbox" id="formDiv" style="padding:10px;">
 			<h2 style="margin-left:20px;margin-bottom:10px;">Login</h2>
+				<?php
+				if (isset($_GET['timeout'])) {echo '<div id="errorTimeout" class="error" style="display:inline;">Your session has timed out - please login.</div>';}
+				?>
 			<form name="loginForm" id="loginForm" action="get_info.php" method="post">
 			<div class="formItem">
 				<label class="login" for="cardNoField">Library card number</label>
 				<input type="text" class="rounded" id="cardNoField" name="cardNoField" />
 				<div id="errorCardNo" class="error">Invalid card number</div>
+
 			</div>
 			
 			<div class="formItem" style="margin-bottom:12px;">
@@ -52,7 +66,7 @@ include 'header.php';
 
 <div id="backCurtain">
 </div>
-<h3 style="text-align:center;clear:both;margin-top:20px;">A service of Alberta's Public Library Network</div>
+<h3 style="text-align:center;clear:both;margin-top:20px;">A service of Alberta's Public Library Network</h3>
 <div id="spacer">&nbsp;</div>
 <?php
 include 'footer.php';
