@@ -116,11 +116,15 @@ if (mysqli_num_rows($result)>0) {
 	//Add newline so the server knows when the message is done.
 	$message.="\n";
 
-	// 10s Timeout 
+	// 10s Timeout. Does this do anything?
 	set_time_limit(10);
+	
 
 	// Create Socket
 	$socket = socket_create(AF_INET, SOCK_STREAM, 0) or die("Could not create socket\n");
+	//Set timeout to 10 seconds.
+	//stream_set_blocking($socket, TRUE );
+	//stream_set_timeout($socket, 10);
 
 	// Connect to the server
 	if ($result = socket_connect($socket, $host, $port) == false) {
