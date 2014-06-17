@@ -205,12 +205,12 @@ if ($result->num_rows > 0) {
 		}
 		
 		if ($hasMembership == false) {
-			$query="INSERT INTO membership (user_record_index, library_record_index, date_last_activity, user_info_hash)
-			VALUES('".$user_record_index."','".$_POST["joinLibrary"]."', NOW(), '".$_SESSION["customerHash"]."')";
+			$query="INSERT INTO membership (user_record_index, library_record_index, date_last_activity, user_info_hash, userid)
+			VALUES('".$user_record_index."','".$_POST["joinLibrary"]."', NOW(), '".$_SESSION["customerHash"]."', '".$_SESSION["customer"]["ID"]."')";
 		}
 		else {
 			//else we update an existing record
-			$query="UPDATE membership SET date_last_activity=NOW(), user_info_hash='".$_SESSION["customerHash"]."' WHERE record_index='".$userInfo["member_record_index"]."'";
+			$query="UPDATE membership SET date_last_activity=NOW(), user_info_hash='".$_SESSION["customerHash"]."', userid='".$_SESSION["customer"]["ID"]."' WHERE record_index='".$userInfo["member_record_index"]."'";
 		}
 		//Execute the insert or update query.
 		$result = mysqli_query($con,$query);

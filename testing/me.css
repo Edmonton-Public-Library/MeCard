@@ -6,20 +6,22 @@
 	}
 
 	body {
-		background-image:url('images/backgroundCovers.jpg');
+		background-image:url('images/JOIN_FREE_SHOW_BG.png');
+		background-color:#33ACDA;
 	}
 
-	
+/*	
 	@font-face {
 		font-family: 'Asap';
 		src: url('fonts/Asap-Regular.otf');
 	}
-
+*/
 	a {
-		font-family:Asap, Arial, Helvetica, sans-serif;
+		font-family:Helvetica Neue LT Std, Helvetica, Arial, sans-serif;
 		text-decoration:none;
 	}	
 
+	
 	a.main {
 		color:white;
 	}
@@ -29,6 +31,10 @@
 		text-decoration:underline;
 	}
 	
+	a:visited {
+		color:#2E7894;
+	}
+	
 	img {
 		border:none;
 	}
@@ -36,13 +42,13 @@
 	p {
 		margin-top:5px;
 		margin-bottom:5px;
-		font-family:Asap, Arial, Helvetica, sans serif;
+		font-family:Helvetica Neue LT Std, Helvetica, Arial, sans-serif;
 	}
 
 	ul {
 		margin-top:5px;
 		margin-bottom:10px;
-		font-family:Asap, Arial, Helvetica, sans serif;	
+		font-family:Helvetica Neue LT Std, Helvetica, Arial, sans-serif;
 	}
 
 	.centered {
@@ -56,6 +62,7 @@
 	
 	#spacer {
 		height:50px;
+		clear:both;
 	}
 	
 	#formDiv {
@@ -67,11 +74,21 @@
 		position:relative;
 	}
 
+	
+	h1 {
+		font-family:Helvetica Neue LT Std, Helvetica, Arial, sans-serif;
+		font-size:34px;
+		font-weight:bold;
+		margin-top:0px;
+		margin-bottom:0px;
+		margin-top:0px;
+	}
+	
+	
 	h2 {
-		font-family:Asap, Arial, Helvetica, sans-serif;
-		font-size:32px;
-		color:#009775;
-		font-weight:normal;
+		font-family:Helvetica Neue LT Std, Helvetica, Arial, sans-serif;
+		font-size:28px;
+		font-weight:bold;
 		margin-top:0px;
 		margin-bottom:0px;
 		margin-top:20px;
@@ -79,9 +96,9 @@
 
 	
 	h3 {
-		font-family:Asap, Arial, Helvetica, sans-serif;
+		font-family:Helvetica Neue LT Std, Helvetica, Arial, sans-serif;
 		font-size:20px;
-		font-weight:normal;
+		font-weight:bold;
 		margin-top:25px;
 		margin-bottom:10px;
 		
@@ -94,16 +111,18 @@
 	}
 	
 	label {
-		font-family:Asap, Arial, Helvetica, sans-serif;
+		font-family:Helvetica Neue LT Std, Helvetica, Arial, sans-serif;
 	}
 	
 	.login {
 		font-size:18px;
+		display:block;
+		margin-bottom:2px;
 	}
 	
 	.error {
 		font-size:16px;
-		font-family: Asap, Arial, Helvetica, sans-serif;
+		font-family:Helvetica Neue LT Std, Helvetica, Arial, sans-serif;
 		color:red;
 		text-align:left;
 		display:none;
@@ -113,16 +132,17 @@
 	.formItem {
 		margin:0 auto;
 		margin-bottom:12px;
-		width:262px;
+		width:276px;
 	}
 	
 	input.rounded {
 		background-color:rgba(255, 255, 255, 0.8);
-		border: 1px solid #DDD;
+		border: 1px solid black;
 		padding:5px;
-		-webkit-border-radius: 10px;
-		-moz-border-radius: 10px;
-		border-radius: 10px;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+		/*No more shadows
 		-webkit-box-shadow: 
 		  inset 0 0 8px  rgba(0,0,0,0.2),
 				0 0 16px rgba(0,0,0,0.2); 
@@ -131,46 +151,47 @@
 				0 0 16px rgba(0,0,0,0.2); 
 		box-shadow: 
 		  inset 0 0 8px  rgba(0,0,0,0.2),
-				0 0 16px rgba(0,0,0,0.2);
+				0 0 16px rgba(0,0,0,0.2);*/
 
 		font-size:16px;
 		
-		width:250px;
+		width:100%;
 	}
 	
 	.button {
-		-webkit-box-shadow: 0px 0px 13px rgba(20, 20, 20, 0.5);
+		/*-webkit-box-shadow: 0px 0px 13px rgba(20, 20, 20, 0.5);
 		-moz-box-shadow:    0px 0px 13px rgba(20, 20, 20, 0.5);
-		box-shadow:         0px 0px 13px rgba(20, 20, 20, 0.5);
+		box-shadow:         0px 0px 13px rgba(20, 20, 20, 0.5);*/
 		text-align:center;
-		-webkit-border-radius: 10px;
-		-moz-border-radius: 10px;
-		border-radius: 10px;
-		background-color:#009775;
-		font-family:Asap, Arial, Helvetica, sans-serif;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+		background-color:#33ACDA;
+		font-family:Helvetica Neue LT Std, Helvetica, Arial, sans-serif;
+		font-weight:bold;
 		font-size:18px;		
-		padding:6px 80px;
+		padding:2px 80px;
 		color:#DDD;
 		text-decoration:none;
-		border-color:#00B189;
+		border:1px solid black;
 		
 	}
 
 	.buttonlike {
-		-webkit-box-shadow: 0px 0px 13px rgba(20, 20, 20, 0.5);
+		/*-webkit-box-shadow: 0px 0px 13px rgba(20, 20, 20, 0.5);
 		-moz-box-shadow:    0px 0px 13px rgba(20, 20, 20, 0.5);
-		box-shadow:         0px 0px 13px rgba(20, 20, 20, 0.5);
+		box-shadow:         0px 0px 13px rgba(20, 20, 20, 0.5);*/
 		text-align:center;
-		-webkit-border-radius: 10px;
-		-moz-border-radius: 10px;
-		border-radius: 10px;
-		background-color:#009775;
-		font-family:Asap, Arial, Helvetica, sans-serif;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+		background-color:#33ACDA;
+		font-family:Helvetica Neue LT Std, Helvetica, Arial, sans-serif;
 		font-size:18px;		
 		padding:6px 1px;
 		color:#DDD;
 		text-decoration:none;
-		border-color:#00B189;
+		border:1px solid black;
 		
 	}
 
@@ -185,7 +206,7 @@
 	}
 
 	.enter {
-		padding:5px 0px;
+		padding:1px 0px;
 		width:150px;
 		display:block;
 		margin:0 auto;
@@ -193,15 +214,17 @@
 	
 	.deadButton {
 		text-align:center;
-		-webkit-border-radius: 10px;
-		-moz-border-radius: 10px;
-		border-radius: 10px;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
 		background-color:#C4C4C4 ;
-		font-family:Asap, Arial, Helvetica, sans-serif;
+		font-family:Helvetica Neue LT Std, Helvetica, Arial, sans-serif;
+		font-weight:bold;
 		font-size:18px;		
-		padding:6px 20px;
+		padding:2px 20px;
 		color:#E4E4E4;
 		text-decoration:none;
+		border:1px solid #AAAAAA;
 		
 	}	
 	
@@ -213,7 +236,8 @@
 		right:0;
 		background-color:black;
 		color:#CCC;
-		padding:10px 15px 8px 15px;
+		padding:10px 8px 8px 15px;
+		border-top:3px solid white;
 	}
 
 	
@@ -221,7 +245,7 @@
 		float:left;
 		font-size:14px;
 		margin-top:6px;
-		font-family:Asap, Arial, Helvetica, sans-serif;
+		font-family:Helvetica Neue LT Std, Helvetica, Arial, sans-serif;
 	}
 	
 	.footerText a {
@@ -235,7 +259,7 @@
 	}
 	
 	#footerLogo {
-		width:65px;
+		height:31px;
 		float:right;"
 	}
 	
@@ -244,8 +268,8 @@
 		-webkit-border-radius: 20px;
 		-moz-border-radius: 20px;
 		border-radius: 20px;
-		width:340px;
-		padding:20px;
+		padding:10px 20px;
+		text-align:center;
 	}
 	
 	.mainContent {
@@ -265,9 +289,9 @@
 		left:202px;
 		top:21px;
 		color:white;
-		font-family:Asap, Arial, Helvetica, sans-serif;
+		font-family:Helvetica Neue LT Std, Helvetica, Arial, sans-serif;
 		font-size:46px;
-		background-color:black;
+		background-color:#33ACDA;
 		font-weight:normal;
 		float:right;
 		padding:20px;
@@ -278,6 +302,7 @@
 
 	}
 
+/*
 	.purple {
 		color:#AE2573;	
 	}	
@@ -298,20 +323,21 @@
 	.greenbg {
 		background-color:#009775;
 	}
-	
+*/	
 	#meLogoTop {
 		width:160px;
-		height:93px;
+		height:59px;
 		margin-left:21px;
-		margin-top:21px;
+		margin-top:36px;
 		border:none;
 	}
 	
 	
 	.personalInfo {
-		color:#AE2573;
+		color:black;
+		font-weight:normal;
 		margin-top:20px;
-		font-family:Asap, Arial, Helvetica, sans-serif;
+		font-family:Helvetica Neue LT Std, Helvetica, Arial, sans-serif;
 	}
 	
 	.personalInfo th {
@@ -321,7 +347,7 @@
 	}
 	
 	.libCaption {
-		font-family:Asap, Arial, Helvetica, sans-serif;
+		font-family:Helvetica Neue LT Std, Helvetica, Arial, sans-serif;
 		text-align:center;
 	}
 	
@@ -330,7 +356,7 @@
 		/*padding-right:25px;*/
 	}
 	
-	a.terms {
+	a.terms {Ho
 		color:#0033A0;
 		margin:0 auto;
 		text-align:left;
@@ -400,7 +426,7 @@
 	.question:before {
 		content:"Q: ";	
 		font-weight:bold;
-		color: #AE2573;
+		color: #E50B8D;
 		font-family:Arial, Helvetica, sans-serif;
 		
 	}
@@ -416,7 +442,7 @@
 	.answer:before {
 		content:"A: ";
 		font-weight:bold;
-		color:#0033A0;
+		color:#33ACDA;
 		font-family:Arial, Helvetica, sans-serif;
 	}
 	
@@ -428,10 +454,10 @@
 	}
 
 	.mainbox {
-		min-height:345px;
-		float:left;
-		margin:15px;
-		width:350px;
+		float:right;
+		right:-50%;
+		margin:10px;
+		position:relative;
 	
 	}
 	
