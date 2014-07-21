@@ -57,11 +57,13 @@ if (mysqli_connect_errno($con))  {
 }
 
 //Query for libraries this user has already joined that need to be updated
+// OR libraries where the hash matches but the userID does not
 
 $query="SELECT * FROM membership m
 	INNER JOIN user u ON m.user_record_index=u.record_index
 	INNER JOIN library l on m.library_record_index=l.record_index
-	WHERE u.userid='".$_SESSION["customer"]["ID"]."' AND user_info_hash!='".$_SESSION["customerHash"]."'";
+	WHERE (u.userid='".$_SESSION["customer"]["ID"]."' AND user_info_hash!='".$_SESSION["customerHash"]."')
+	OR ((m.userid!='".$_SESSION["customer"]["ID"]."' OR m.userid IS NULL) AND user_info_hash='".$_SESSION["customerHash"]."')";
 
 $result = mysqli_query($con, $query);
 $numUpdates = mysqli_num_rows($result);
@@ -97,11 +99,12 @@ if (mysqli_num_rows($result)>0) {
 
 //Query for libraries that we are not a member of and aren't natively from
 //Later I will need to adjust this to show libraries needing an update (the hash differs from our own).
+//This should now also avoid showing libraries where the hash is the same but the user is different. (these require an update, not a join).
 $query="SELECT * FROM library l 
 JOIN librarycom lc ON l.record_index=lc.library_record_index
 WHERE l.record_index != ".$_SESSION["libraryData"]["libraryRecordIndex"]." AND l.record_index NOT IN (
 SELECT m.library_record_index from user u INNER JOIN membership m ON u.record_index = m.user_record_index 
-WHERE u.userid='".$_SESSION["customer"]["ID"]."')";
+WHERE u.userid='".$_SESSION["customer"]["ID"]."' OR m.user_info_hash='".$_SESSION["customerHash"]."')";
 
 $result = mysqli_query($con, $query);
 

@@ -24,7 +24,7 @@ include 'header.php';
 
 <div class="mainContent" id="mainContent">
 
-<a href="logout.php" style="border:none;" title="Return to Login"><img id="meLogoTop" src="images/ME_Libraries_Logo_black.png"/></a>
+<a href="index.php" style="border:none;" title="Return to Login"><img id="meLogoTop" src="images/ME_Libraries_Logo_black.png"/></a>
 <h1 class="pageTitle greenbg">Joining &amp; Updating</h1>
 
 <div class="subContent">
@@ -57,22 +57,41 @@ if ($result=mysqli_query($con, $query)) {
 
 
 //Check to see if the user is already a member here. If so, we do an update.
-$query="select u.record_index, m.record_index AS member_record_index, u.userid, u.home_library_record_index, m.user_record_index, m.library_record_index FROM user u
+//2014-06-17 - now we also check for matching hashes in case we have a lost card.
+$query="select u.record_index, m.userid AS muserid, m.user_info_hash, m.record_index AS member_record_index, u.userid, u.home_library_record_index, m.user_record_index, m.library_record_index FROM user u
 	INNER JOIN membership m
 	ON u.record_index = m.user_record_index
-	WHERE u.userid='".$_SESSION["customer"]["ID"]."' AND m.library_record_index=".$_POST["joinLibrary"];
+	WHERE u.userid='".$_SESSION["customer"]["ID"]."' AND m.library_record_index=".$_POST["joinLibrary"]."
+	OR (m.user_info_hash='".$_SESSION["customerHash"]."' AND m.library_record_index=".$_POST["joinLibrary"].")";
 
 
 $userExists=false;
 $hasMembership=false;
+$hasLostCard=false;
+$prevCard='';
+//If it's a lost card, we need to determine the original userid so we can update that record.
+
+
+//Check to see if this user has a matching hash but no matching userid. If so, we most likely have a lost card.
+//Where's the userid for this libraryrecord?
+
 	
 $result=mysqli_query($con, $query);
 if ($result->num_rows > 0) {
 		$userInfo = mysqli_fetch_assoc($result);
 		$hasMembership=true;
 		$userExists=true;
+		//If the currently logged-in userid doesn't match the one on record for this membership, card is lost
+		//We also set the old card number to a variable so we can handle the updates appropriately.
+		if ($userInfo["muserid"] != $_SESSION["customer"]["ID"]) {
+			$hasLostCard=true;
+			$prevCard=$userInfo["muserid"];
+			$_SESSION["customer"]["ISLOSTCARD"] = 'Y';
+			$_SESSION["customer"]["ALTERNATE_ID"] = $prevCard;		
+		}
 } else {
 	//Now check that the user exists at all
+	//I don't think I need to do anything special here for lost card.
 	$query="select * from user WHERE userid='".$_SESSION["customer"]["ID"]."'";
 	$result=mysqli_query($con, $query);
 	if ($result->num_rows > 0) {
@@ -155,12 +174,19 @@ if ($result->num_rows > 0) {
 	$message=json_encode($message);
 	$message.="\n";
 
-	//echo "<b>Sending Message:</b>\n<br />".$message;
+	
+	if ($_SESSION['originating_ip']=='10.3.0.79'){	
+		echo '<pre class="debug">';
+		echo 'Sending Message:';
+		print_r($message);
+		echo '</pre>';
+	}
+
 	$result = (socket_write($socket, $message, strlen($message)));
 	if ($result == false) {
 		$error=true;
 		$errorMsg="Could not send data to server $host";
-		echo('<div class="mainContent" id="mainContent" style="min-width:695px;"><a href="index.php" style="border:none;"><img id="meLogoTop" src="images/Me_Logo_Color.png"></a><h1 class="pageTitle bluebg">Error</h1><div class="subContent"><p class="error" style="display:inline;">'.$errorMsg.'</p><p>Please return to <a href="/">MeLibraries.ca</a>.</p></div></div>'); 
+		echo('<div class="mainContent" id="mainContent" style="min-width:695px;"><a href="index.php" style="border:none;"><img id="meLogoTop" src="images/ME_Libraries_Logo_black.png"></a><h1 class="pageTitle">Error</h1><div class="subContent"><p class="error" style="display:inline;">'.$errorMsg.'</p><p>Please return to <a href="/">MeLibraries.ca</a>.</p></div></div>'); 
 		include 'footer.php';
 		exit();
 	}
@@ -202,6 +228,17 @@ if ($result->num_rows > 0) {
 			$user_record_index=mysqli_insert_id($con);
 		} else {
 			$user_record_index=$userInfo["record_index"];
+			//If the user exists but has a lost card, we will update his/her record
+			if ($hasLostCard) {
+				$query="UPDATE user SET userid='".$_SESSION["customer"]["ID"]."',
+				lost_card='".$prevCard."',
+				date_last_activity=NOW()
+				WHERE record_index=".$user_record_index;
+				$result = mysqli_query($con,$query);
+				if ( false===$result ) {
+					printf('<p class="SQL error" style="display:block;">error: %s</p>\n', mysqli_error($con));
+				}			
+			}
 		}
 		
 		if ($hasMembership == false) {
@@ -294,12 +331,12 @@ if ($result->num_rows > 0) {
 		}
 		
 		if ($hasMembership == false) {
-			$query="INSERT INTO membership (user_record_index, library_record_index, date_last_activity, user_info_hash)
-			VALUES('".$user_record_index."','".$_POST["joinLibrary"]."', NOW(), '".$_SESSION["customerHash"]."')";
+			$query="INSERT INTO membership (user_record_index, library_record_index, date_last_activity, user_info_hash, userid)
+			VALUES('".$user_record_index."','".$_POST["joinLibrary"]."', NOW(), '".$_SESSION["customerHash"]."', '".$_SESSION["customer"]["ID"]."')";
 		}
 		else {
 			//else we update an existing record
-			$query="UPDATE membership SET date_last_activity=NOW(), user_info_hash='".$_SESSION["customerHash"]."' WHERE record_index='".$userInfo["member_record_index"]."'";
+			$query="UPDATE membership SET date_last_activity=NOW(), user_info_hash='".$_SESSION["customerHash"]."', userid='".$_SESSION["customer"]["ID"]."' WHERE record_index='".$userInfo["member_record_index"]."'";
 		}
 		//Execute the insert or update query.
 		$result = mysqli_query($con,$query);
@@ -350,13 +387,13 @@ if ($_SESSION['originating_ip']=='10.3.0.79'){
 	.<br />Click the logo below to visit their website, or <a class="green" href="signup.php">join another library</a>.</p>
 	
 	<?php  } // End success message ?>
-<a href="<?=$libraryComData['library_url']?>" style="border:none;height:160px;" class="centered"><img src="<?=$libraryComData["library_logo_url"]?>" class="centered" style="height:160px;vertical-align:middle;" alt="<?=$libraryComData["library_name"]?>" title="<?=$libraryComData["library_name"]?>"></a>	
+<a href="<?=$libraryComData['library_url']?>" style="border:none;height:160px;max-width:300px;text-align:center;" class="centered"><img src="<?=$libraryComData["library_logo_url"]?>" class="centered" style="height:160px;vertical-align:middle;" alt="<?=$libraryComData["library_name"]?>" title="<?=$libraryComData["library_name"]?>"></a>	
 </div>
 <p style="text-align:center;margin-top:30px;">Note that it may take up to 5 minutes to update your account. If you are finished with this service, you can close your browser tab to end your session.</p>
 <p style="text-align:center;font-weight:bold;">
 <a href="signup.php">Join/Update more libraries</a>
 <br /><br />
-<a href="logout.php">Logout of ME Libraries</a>
+<a href="logout.php">Log Out of ME Libraries</a>
 </p>
 </div><!--subContent-->
 <div id="spacer"></div>
