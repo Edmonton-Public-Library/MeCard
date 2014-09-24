@@ -16,7 +16,6 @@ include 'header.php';
 	);	
 */
 
-
 ?>
 <div class="mainContent" id="mainContent">
 
@@ -30,7 +29,45 @@ include 'header.php';
 <ul>
 	<li>Calgary Public Library</li>
 	<li>Chinook Arch Regional Library System</li>
-	<li>Edmonton Public Library</li>
+	<ul class="columns">
+			<li><a href="http://www.arrowwoodlibrary.ca/">Arrowwood Municipal Library</a></li>
+			<li><a href="http://www.barnwelllibrary.ca">Barnwell Public Library</a></li>
+			<li><a href="http://www.cardstonlibrary.ca/">Jim &amp; Mary Kearl Library of Cardston</a></li>			
+			<li><a href="http://www.carmangaylibrary.ca/">Carmangay Municipal Library</a></li>
+			<li><a href="http://www.championlibrary.ca/">Champion Municipal Library</a></li>
+			<li><a href="http://www.claresholmlibrary.ca/">Claresholm Public Library</a></li>
+			<li><a href="http://www.coaldalelibrary.ca/">Coaldale Public Library</a></li>
+			<li><a href="http://www.couttslibrary.ca/">Coutts Municipal Library</a></li>
+			<li><a href="http://www.crowsnestpasslibrary.ca">Crowsnest Pass Municipal Library</a></li>
+			<li><a href="http://www.enchantlibrary.ca/">Enchant Community Library</a></li>
+			<li><a href="http://www.fortmacleodlibrary.ca/">Fort Macleod RCMP Centennial Library</a></li>
+			<li><a href="http://www.glenwoodlibrary.ca/">Glenwood Municipal Library</a></li>
+			<li><a href="http://www.granumlibrary.ca/">Granum Municipal Library</a></li>
+			<li><a href="http://www.grassylakelibrary.ca/">Grassy Lake Community Library</a></li>
+			<li><a href="http://www.hayslibrary.ca/">Hays Public Library</a></li>
+			<li><a href="http://www.kainailibrary.ca/">Kainai Public Library</a></li>
+			<li><a href="http://www.lethbridgepubliclibrary.ca/">Lethbridge Public Library</a></li>
+	</ul><!--columns-->
+	<ul class="columns">
+			<li><a href="http://www.lomondlibrary.ca">Lomond Library</a></li>		
+			<li><a href="http://www.magrathlibrary.ca/">Magrath Public Library</a></li>		
+			<li><a href="http://www.mfem.ca/">M&eacute;diath&egrave;que Francophone Emma Morrier</a></li>	
+			<li><a href="http://www.milkriverlibrary.ca/">Milk River Municipal Library</a></li>	
+			<li><a href="http://www.milolibrary.ca/">Milo Municipal Library</a></li>
+			<li><a href="http://www.nantonlibrary.ca/">Nanton Thelma Fanning Library</a></li>
+			<li><a href="http://www.picturebuttelibrary.ca/">Picture Butte Municipal Library</a></li>
+			<li><a href="http://www.pinchercreeklibrary.ca/">Pincher Creek Municipal Library</a></li>	
+			<li><a href="http://www.raymondlibrary.ca/">Raymond Public Library</a></li>
+			<li><a href="http://www.stavelylibrary.ca/">Stavely Municipal Library</a></li>
+			<li><a href="http://www.stirlinglibrary.ca/">Stirling Theodore Brandley Library</a></li>
+			<li><a href="http://www.taberlibrary.ca/">Taber Public Library</a></li>
+			<li><a href="http://www.vauxhalllibrary.ca/">Vauxhall Public Library</a></li>
+			<li><a href="http://www.vulcanlibrary.ca/">Vulcan Municipal Library</a></li>
+			<li><a href="http://www.warnerlibrary.ca/">Warner Municipal Library</a></li>
+			<li><a href="http://www.wrenthamlibrary.ca/">Wretham Memorial Library</a></li>	
+	</ul><!--columns-->
+	<li style="clear:left;">Edmonton Public Library</li>
+	<li>Fort McMurray Public Library</li>
 	<li>Fort Saskatchewan Public Library</li>
 	<li>Parkland Regional Library</li>
 	<ul class="columns">
@@ -90,7 +127,8 @@ include 'header.php';
 		<li>Sylvan Lake Municipal Library</li>
 		<li>Water Valley Public Library</li>
 	</ul><!--columns-->
-	<li style="clear:left;">St. Albert Public Library</li>
+	<li style="clear:left;">Red Deer Public Library</li>
+	<li>St. Albert Public Library</li>
 	<li>Strathcona County Library</li>
 	<li>Shortgrass Library System</li>
 	<ul class="columns">
