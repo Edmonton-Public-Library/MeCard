@@ -73,7 +73,7 @@ include 'header.php';
 	</li>
 
 	<li><span class="question">I have been using a TAL card (The Alberta Library). Why would I use the ME Libraries service?</span>
-		<span class="answer">Your TAL card is valid at all participating library systems in Alberta, including the libraries that make up the ME Libraries service. However, the TAL card provides more limited access to collections and services, and requires a separate card and in-person registration with each library you wish to use.</span>
+		<span class="answer">Your TAL card is valid at all participating library systems in Alberta, including the libraries that make up the ME Libraries service. However, the TAL card requires a separate card and in-person registration with each library you wish to use.</span>
 	</li>
 
 	<li><span class="question">I have outstanding charges on my existing home library account. Can I still register for the ME Libraries?</span>
