@@ -19,6 +19,7 @@ if (!isset($_SESSION['timeout_idle']) || basename($_SERVER['PHP_SELF']) != 'get_
 		if (basename($_SERVER['PHP_SELF']) != 'index.php'
 			&& basename($_SERVER['PHP_SELF']) != 'privacy.php'
 			&& basename($_SERVER['PHP_SELF']) != 'help.php'
+			&& basename($_SERVER['PHP_SELF']) != 'stats.php'
 			&& basename($_SERVER['PHP_SELF']) != 'participating.php') {
 			header("Location: index.php?timeout");
 		}
@@ -38,6 +39,7 @@ if (!isset($_SESSION['agree'])
 	&& basename($_SERVER['PHP_SELF'])!= 'index.php'
 	&& basename($_SERVER['PHP_SELF']) != 'privacy.php'
 	&& basename($_SERVER['PHP_SELF']) != 'help.php'
+	&& basename($_SERVER['PHP_SELF']) != 'stats.php'
 	&& basename($_SERVER['PHP_SELF']) != 'participating.php'	
 	&& basename($_SERVER['PHP_SELF'])!= 'welcome.php') {
 	header("Location: welcome.php"); 
@@ -50,6 +52,7 @@ if (!isset($_SESSION['customer'])
 	&& basename($_SERVER['PHP_SELF']) != 'logout.php'
 	&& basename($_SERVER['PHP_SELF']) != 'privacy.php'
 	&& basename($_SERVER['PHP_SELF']) != 'help.php'
+	&& basename($_SERVER['PHP_SELF']) != 'stats.php'
 	&& basename($_SERVER['PHP_SELF']) != 'participating.php'
 	&& basename($_SERVER['PHP_SELF']) != 'index.php') {
 	header("Location: index.php");
