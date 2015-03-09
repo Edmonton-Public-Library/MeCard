@@ -55,7 +55,7 @@ $result = mysqli_query($con, $query);
 
 ?>
 
-<h3>Memberships from Each Library at Each Library</h3>
+<h3>Registrations Grouped by Library</h3>
 <table class="stats">
 <!-- 	<tr>
 		<th>Home Library</th>

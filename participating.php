@@ -154,6 +154,7 @@ include 'header.php';
 			<li>Acadia Municipal Library</li>
 			<li>Acme Municipal Library</li>
 			<li>Airdrie Public Library</li>
+			<li>Banff Public Library</li>
 			<li>Beiseker Municipal Library</li>
 			<li>Berry Creek Community Library</li>
 			<li>Bighorn Library</li>
@@ -213,6 +214,7 @@ include 'header.php';
 			<li>Innisfree Public Library</li>
 			<li>Irma Municipal Library</li>
 			<li>Kitscoty Public Library</li>
+			<li>Lamont Public Library</li>
 			<li>Mallaig Public Library</li>
 			<li>Mannville Centennial Public Library</li>
 		</ul><!--columns-->
