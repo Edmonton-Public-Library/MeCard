@@ -24,7 +24,7 @@ include 'header.php';
 
 <div class="subContent">
 <h2>Participating Libraries</h2>
-<p>The below libraries are currently all participating in the ME Libraries service. Check back regularly as more Alberta libraries will be added through 2014!</p>
+<p>The libraries below are currently all participating in the ME Libraries service.</p>
 
 <ul>
 	<li>Calgary Public Library</li>
@@ -67,7 +67,6 @@ include 'header.php';
 			<li><a href="http://www.wrenthamlibrary.ca/">Wretham Memorial Library</a></li>	
 	</ul><!--columns-->
 	<li style="clear:left;">Edmonton Public Library</li>
-	<li>Fort McMurray Public Library</li>
 	<li>Fort Saskatchewan Public Library</li>
 	<li>Parkland Regional Library</li>
 	<ul class="columns">
@@ -344,6 +343,7 @@ include 'header.php';
 			<li>Winfield Community Library</li>
 		</ul><!--columns-->
 	</ul>
+	<li style="clear:left;">Wood Buffalo Regional Library</li>
 </ul>
 <div style="clear:left;"></div>
 
