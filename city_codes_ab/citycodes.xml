@@ -729,7 +729,7 @@
         <entry key="Willow Creek">0353</entry>
         <entry key="Woodlands County">0480</entry>
         <entry key="Yellowhead County">0482</entry>
-		<entry key="Standoff">6000</entry>
+	<entry key="Standoff">6000</entry>
         <entry key="Blairmore">6010</entry>
         <entry key="Bellevue">6020</entry>
         <entry key="Coleman">6030</entry>
@@ -742,7 +742,7 @@
         <entry key="Rosedale Valley">6120</entry>
         <entry key="Stauffer">6130</entry>
         <entry key="Water Valley">6140</entry>
-		<entry key="Lancaster Park">6150</entry>
+	<entry key="Lancaster Park">6150</entry>
         <entry key="St. Brides">6160</entry>
         <entry key="Alsike">6170</entry>
         <entry key="Atikameg">6171</entry>
@@ -768,4 +768,5 @@
         <entry key="Bearspaw">6194</entry>
         <entry key="Redwood Meadows">6195</entry>
         <entry key="Morley">6196</entry>
+        <entry key="East Coulee">6197</entry>
 </properties>
